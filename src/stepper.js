@@ -45,22 +45,9 @@ export default function VStepper(props) {
 
   const [subject, setSubject] = React.useState("");
   const [selectedsubSubjectItem, setSelected] = React.useState([]);
+  const [subjectOption, setSubjectOption] = React.useState(props.subjectOption)
 
-
-  const subjectList = {
-      Fab:[
-          {name:"Fab"}
-        ],
-      Model:[
-          {name:"Fab"},
-          {name:"Model"}
-        ],
-      Func:[
-          {name:"Fab"},
-          {name:"Model"},
-          {name:"Func"}
-      ]
-    }
+  
 
   const refs = React.createRef();
 
@@ -79,15 +66,15 @@ export default function VStepper(props) {
   const onChangeHandler=(event, target)=>{
 
     if(target != ""){
-        setItemList(subjectList[target].map(list=>{return list.name}))
+        setItemList(subjectOption[target].map(list=>{return list.name}))
     }else{
         setItemList([])
     }
 
-    // change subject -> clear
+    // 如果 subject 變了 -> clear all
     setSelected([]);
     setSubject(target);
-    setUpdatedComponent(updated("change subject"));
+    //setUpdatedComponent(updated("change subject"));
   
   }
 
@@ -95,18 +82,16 @@ export default function VStepper(props) {
   // !!!
   // 如果 subject 變了 就更新 dropdown components (1個或2個或3個之類的)
   React.useEffect(()=>{
-    setUpdatedComponent(updated("use effect"));
-  },[itemList])
+    setUpdatedComponent(updated("use effect, change subject"));
+  },[subject]) //or itemList
 
 
-  const changeListHandler = (subject,value) => {
+  const changeListHandler = (target,value) => {
     console.log(value)
     const newSelected = selectedsubSubjectItem;
-    newSelected[subject] = value;
+    newSelected[target] = value;
     setSelected(newSelected);
-    setUpdatedComponent(updated("change list"));  // importent!
-
-
+    setUpdatedComponent(updated("change list"));  // importent! 顯示 slected chip
   
   };
 

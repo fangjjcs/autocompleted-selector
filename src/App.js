@@ -33,10 +33,25 @@ function App() {
     ]
   };
 
+  const subjectOption = {
+    Fab:[
+        {name:"Fab"}
+      ],
+    Model:[
+        {name:"Fab"},
+        {name:"Model"}
+      ],
+    Func:[
+        {name:"Fab"},
+        {name:"Model"},
+        {name:"Func"}
+    ]
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <VStepper list = {list}/>
+        <VStepper list = {list} subjectOption={subjectOption}/>
         
       </header>
     </div>

@@ -100,11 +100,13 @@ export default function VStepper(props) {
 
 
   const changeListHandler = (subject,value) => {
-    // console.log(value)
+    console.log(value)
     const newSelected = selectedsubSubjectItem;
     newSelected[subject] = value;
     setSelected(newSelected);
-    setUpdatedComponent(updated("change list"));
+    setUpdatedComponent(updated("change list"));  // importent!
+
+
   
   };
 

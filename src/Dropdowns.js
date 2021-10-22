@@ -16,18 +16,17 @@ export default function Dropdowns(props) {
         props.onChange(props.name, value);
     }
   
-
     return (
     <Autocomplete
       multiple
-      style={ {minWidth: 100 , margin: 4}}
+      style={{minWidth: 150, margin: 8}}
       id="tags-standard"
       options={props.list}
       groupBy={(option) => option.group}
       getOptionLabel={(option) => option.title}
-      //key={props.selected} // when key value changed, component will re-render ?
-      value={selected?selected:[]}
-      defaultValue={selected?selected:[]}
+      //key={props.selected} //   when key value changed, component will re-render
+      value={props.selected?props.selected:[]}
+      defaultValue={props.selected?props.selected:[]}
       onChange={onChangeHandler}
       getOptionSelected={(option, value)=>{
           return option.title === value.title

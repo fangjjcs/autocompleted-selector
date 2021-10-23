@@ -1,3 +1,7 @@
+
+(1) switch subject and clear all input.
+(2) all -> select all and show all chips. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

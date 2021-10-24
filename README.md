@@ -1,3 +1,11 @@
+
+(1) switch subject and clear all input.
+(2) all -> select all and show all chips. 
+[select all](https://codesandbox.io/s/thirsty-moon-9egd9?file=/src/Demo.js:724-742)
+
+[ApexChart React](https://apexcharts.com/docs/react-charts/)
+[ApexChart toolbar](https://apexcharts.com/docs/options/chart/toolbar/)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

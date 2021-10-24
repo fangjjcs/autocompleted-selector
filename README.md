@@ -1,6 +1,7 @@
 
 (1) switch subject and clear all input.
 (2) all -> select all and show all chips. 
+[select all](https://codesandbox.io/s/thirsty-moon-9egd9?file=/src/Demo.js:724-742)
 
 # Getting Started with Create React App
 

@@ -2,3 +2,18 @@
     display: flex;
     flex-direction: row;
 }
+
+.MuiStepContent-root {
+    margin-top: 16px !important;
+    /* margin-left: 32px !important; */
+    padding-left: 24px !important;
+}
+
+.MuiCollapse-wrapperInner{
+    display: grid;
+    gap: 32px;
+}
+
+.MuiButtonBase-root{
+    margin-right: 8px !important;
+}

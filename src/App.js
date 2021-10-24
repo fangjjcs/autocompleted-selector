@@ -6,7 +6,7 @@ import VStepper from "./stepper";
 
 
 function App() {
-  const list = {
+  const data = {
     Fab:[
       { title: "F12", group:null, id: null},
       { title: "F14", group: null, id: null},
@@ -35,25 +35,25 @@ function App() {
 
   const subjectOption = {
     Fab:[
-        {name:"Fab"}
+        {name:"Fab", list:[]}
       ],
     Model:[
-        {name:"Fab"},
-        {name:"Model"}
+        {name:"Fab", list:[]},
+        {name:"Model", list:[]}
       ],
     Func:[
-        {name:"Fab"},
-        {name:"Model"},
-        {name:"Func"}
+        {name:"Fab", list:[]},
+        {name:"Model", list:[]},
+        {name:"Func", list:[]}
     ]
   }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <VStepper list = {list} subjectOption={subjectOption}/>
+      {/* <header className="App-header"> */}
+        <VStepper data = {data} subjectOption={subjectOption}/>
         
-      </header>
+      {/* </header> */}
     </div>
   );
 }

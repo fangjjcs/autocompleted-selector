@@ -1,15 +1,14 @@
 import { Autocomplete } from "@material-ui/lab";
 import { TextField } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function Dropdowns(props) {
   
     const [selected, setselected] = useState(props.selected);
     const [isAll, setAll] = useState(false);
-
-    useEffect(()=>{
-        setselected(props.selected)
-    }, [props.selected])
+    // useEffect(()=>{
+    //     setselected(props.selected)
+    // }, [props.selected])
 
     const options = [{ title: "all", group: null , id: "all"}, ...props.list]
 
@@ -28,13 +27,15 @@ export default function Dropdowns(props) {
     return (
     <Autocomplete
       multiple
-      style={{minWidth: 150, margin: 8}}
+      disableCloseOnSelect
+      limitTags={1}
+      style={{minWidth: 150, marginRight: 8, marginTop: 16}}
       id="tags-standard"
       options={options}
       groupBy={(option) => option.group}
       getOptionLabel={(option) => option.title}
       //key={props.selected} //   when key value changed, component will re-render
-      value={props.selected?props.selected:[]}
+      value={props.selected?props.selected:[]} // if "selected" -> put only "all" chip
       defaultValue={props.selected?props.selected:[]}
       onChange={onChangeHandler}
       getOptionSelected={(option, value)=>{

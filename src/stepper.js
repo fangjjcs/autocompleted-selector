@@ -1,5 +1,5 @@
 import * as React from "react";
-import './stepper.css';
+import "./stepper.css";
 import Box from "@material-ui/core/Box";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -12,31 +12,22 @@ import { Autocomplete } from "@material-ui/lab";
 import { TextField } from "@material-ui/core";
 
 import Dropdowns from "./Dropdowns";
+import LineChart from "./LineChart";
 
 const steps = [
   {
     label: "Select campaign settings",
-    description: `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`,
   },
   {
     label: "Create an ad group",
-    description:
-      "An ad group contains one or more ads which target a shared set of keywords.",
   },
   {
     label: "Create an ad",
-    description: `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`,
   },
 ];
 
 export default function VStepper(props) {
-
-    console.log("begining")
+  console.log("begining");
   const [activeStep, setActiveStep] = React.useState(0);
 
   // !!!!!!!!!!!!
@@ -45,11 +36,11 @@ export default function VStepper(props) {
 
   const [subject, setSubject] = React.useState("");
   const [selectedsubSubjectItem, setSelected] = React.useState([]);
-  const [subjectOption, setSubjectOption] = React.useState(props.subjectOption)
+  const [subjectOption, setSubjectOption] = React.useState(props.subjectOption);
+  const [subsubjectlist, setsubsubjectlist] = React.useState(props.data);
 
-  
+  const mapRef = React.useRef();
 
-  const refs = React.createRef();
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -63,48 +54,50 @@ export default function VStepper(props) {
     setActiveStep(0);
   };
 
-  const onChangeHandler=(event, target)=>{
-
-    if(target != ""){
-        setItemList(subjectOption[target].map(list=>{return list.name}))
-    }else{
-        setItemList([])
+  const onChangeHandler = (event, target) => {
+    if (target != "") {
+      setItemList(
+        subjectOption[target].map((item) => {
+          return item.name;
+        })
+      );
+    } else {
+      setItemList([]);
     }
 
     // 如果 subject 變了 -> clear all
     setSelected([]);
     setSubject(target);
     //setUpdatedComponent(updated("change subject"));
-  
-  }
-
+  };
 
   // !!!
   // 如果 subject 變了 就更新 dropdown components (1個或2個或3個之類的)
-  React.useEffect(()=>{
+  React.useEffect(() => {
+    console.log(subject);
     setUpdatedComponent(updated("use effect, change subject"));
-  },[subject]) //or itemList
+  }, [subject]); //or itemList
 
 
-  const changeListHandler = (target,value) => {
-    console.log(value)
+  // dropdown 有新增修改刪除
+  const changeListHandler = (target, value) => {
+    console.log(value);
     const newSelected = selectedsubSubjectItem;
     newSelected[target] = value;
     setSelected(newSelected);
-    setUpdatedComponent(updated("change list"));  // importent! 顯示 slected chip
-  
+    setUpdatedComponent(updated("change list")); // importent! 顯示 selected chip
   };
 
   const updated = (tag) => {
-    console.log("updated!",tag,selectedsubSubjectItem);
+    console.log("updated!", tag, selectedsubSubjectItem);
+    // 用 itemList : ["Fab", "Model", "Func"] 去 mapping
     const list = itemList.map((i) => {
-        return (
+      return (
         <Dropdowns
           name={i}
-          list={props.list[i]}
+          list={subsubjectlist[i]}   // -> 要改一下
           selected={selectedsubSubjectItem[i]}
           onChange={changeListHandler}
-          ref={refs}
         />
       );
     });
@@ -115,36 +108,25 @@ export default function VStepper(props) {
   const [updatedComponent, setUpdatedComponent] = React.useState(component);
 
   return (
-    <Box sx={{ minWidth: 800 }}>
-      <Stepper activeStep={activeStep} orientation="vertical">
+    <Box sx={{ minWidth: 800 }} >
+      <Stepper activeStep={activeStep} orientation="vertical" ref={mapRef}>
         {steps.map((step, index) => (
-          <Step key={step.label}>
-            <StepLabel
-              optional={
-                index === 2 ? (
-                  <Typography variant="caption">Last step</Typography>
-                ) : null
-              }
-            >
+          <Step key={step.label} >
+            <StepLabel>
               {step.label}
             </StepLabel>
-            <StepContent>
+            <StepContent >
               <div>
                 {index === 0 ? (
-                  <Box>
-                    
-                  </Box>
+                  <Box></Box>
                 ) : index === 1 ? (
-                    
                   <Box>
-                      <Autocomplete
-                      
+                    <Autocomplete
                       id="tags-standard"
-                      options={["Fab","Model","Func"]}
+                      options={["Fab", "Model", "Func"]}
                       getOptionLabel={(option) => option}
                       value={subject}
                       onChange={onChangeHandler}
-                      ref={React.createRef()}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -155,8 +137,12 @@ export default function VStepper(props) {
                       )}
                     />
                     <div className="box">{updatedComponent} </div>
+                  </Box>
+                ) : index === 2 ? (
+                    <Box>
+                      <LineChart/>
                     </Box>
-                ) : null}
+                  ) : null}
               </div>
               <Box sx={{ mb: 2 }}>
                 <div>

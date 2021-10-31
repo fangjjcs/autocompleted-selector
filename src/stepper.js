@@ -9,10 +9,12 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { Autocomplete } from "@material-ui/lab";
-import { TextField } from "@material-ui/core";
+import { CircularProgress, TextField } from "@material-ui/core";
+import { useState, useEffect } from "react";
 
 import Dropdowns from "./Dropdowns";
 import LineChart from "./LineChart";
+import { useHttpClient } from "./http-hook";
 
 const steps = [
   {
@@ -39,12 +41,7 @@ export default function VStepper(props) {
   const [subjectOption, setSubjectOption] = React.useState(props.subjectOption);
   const [subsubjectlist, setsubsubjectlist] = React.useState(props.data);
 
-  const mapRef = React.useRef();
-
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+  
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -78,7 +75,6 @@ export default function VStepper(props) {
     setUpdatedComponent(updated("use effect, change subject"));
   }, [subject]); //or itemList
 
-
   // dropdown 有新增修改刪除
   const changeListHandler = (target, value) => {
     console.log(value);
@@ -95,7 +91,7 @@ export default function VStepper(props) {
       return (
         <Dropdowns
           name={i}
-          list={subsubjectlist[i]}   // -> 要改一下
+          list={subsubjectlist[i]} // -> 要改一下
           selected={selectedsubSubjectItem[i]}
           onChange={changeListHandler}
         />
@@ -104,18 +100,50 @@ export default function VStepper(props) {
     return list;
   };
 
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [loadedData, setLoadedData] = useState();
+
+  const fetchDataHandler = () => {
+    const fetchData = async () => {
+      try {
+        const responseData = await sendRequest(
+          "http://localhost:5000/api/data/getdata",
+          'POST',
+          JSON.stringify({
+            title: "hihi",
+            description: "hello"
+          }),
+          {
+            'Content-Type': 'application/json'
+          }
+        );
+        setLoadedData(responseData);
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      } catch (err) {
+      }
+    };
+    fetchData();
+  };
+
+  const handleNext = () => {
+    if (activeStep === steps.length - 1) {
+      fetchDataHandler();
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
+  };
+
+
   var component = updated("initialized");
   const [updatedComponent, setUpdatedComponent] = React.useState(component);
 
   return (
-    <Box sx={{ minWidth: 800 }} >
-      <Stepper activeStep={activeStep} orientation="vertical" ref={mapRef}>
+    <Box sx={{ minWidth: 800 }}>
+      <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
-          <Step key={step.label} >
-            <StepLabel>
-              {step.label}
-            </StepLabel>
-            <StepContent >
+          <Step key={step.label}>
+            <StepLabel>{step.label}</StepLabel>
+            <StepContent>
               <div>
                 {index === 0 ? (
                   <Box></Box>
@@ -139,10 +167,10 @@ export default function VStepper(props) {
                     <div className="box">{updatedComponent} </div>
                   </Box>
                 ) : index === 2 ? (
-                    <Box>
-                      <LineChart/>
-                    </Box>
-                  ) : null}
+                  <Box>
+                    <LineChart />
+                  </Box>
+                ) : null}
               </div>
               <Box sx={{ mb: 2 }}>
                 <div>
@@ -166,9 +194,16 @@ export default function VStepper(props) {
           </Step>
         ))}
       </Stepper>
-      {activeStep === steps.length && (
+
+      {isLoading && (
+        <div className="center">
+          <CircularProgress />
+        </div>
+      )}
+      {console.log(isLoading,loadedData)}
+      {activeStep === steps.length && !isLoading && loadedData && (
         <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          {loadedData.user.map( u => { return(<Typography>{u}</Typography>)})}
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
             Reset
           </Button>

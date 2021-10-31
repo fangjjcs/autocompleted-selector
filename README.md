@@ -7,10 +7,15 @@
 [ApexChart toolbar](https://apexcharts.com/docs/options/chart/toolbar/)
 
 `git init`
+
 `git remote add origin "link"`
+
 `git add -A`
+
 `git commit -m 'Added my project'`
+
 `git pull --rebase origin master`
+
 `git push origin master`
 
 # Getting Started with Create React App

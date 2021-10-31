@@ -142,6 +142,33 @@ export default function VStepper(props) {
 
 
   
+  const arr = ["A","B","C", "D", "E"];
+  var object = {};
+  for(let i=0 ; i<arr.length;i++){
+    object[arr[i]] = ""
+  }
+
+  const selected = [{A: "1", B:"2",D:"3"},{A: "1", B:"3",D:"4"},{A: "1", B:"2",D:"5"}];
+  const text = "AAA*"; // text
+  const parameter = [];
+  for(let i = 0 ; i < selected.length ; i++){
+    let newobject = object;
+    let keys = Object.keys(selected[0]);
+    console.log(keys);
+    for(let j=0; j<keys.length;j++){
+      newobject[keys[j]] = selected[i][keys[j]];
+    }
+    newobject['text'] = text; // text
+    parameter.push(object);
+  }
+  console.log(parameter);
+
+  // 處理參數 body
+  // 幾條線就幾個objects
+  // 取 subject 那一段
+  // recipe 綁定 tool
+  // raw data 必須加回爸爸們
+  
 
   return (
     <Box sx={{ minWidth: 800 }}>

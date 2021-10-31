@@ -9,6 +9,7 @@ export const useHttpClient = () => {
   const sendRequest = useCallback(
     async (url, method = 'POST', body, headers = {}) => {
       setIsLoading(true);
+
       const httpAbortCtrl = new AbortController();
       activeHttpRequests.current.push(httpAbortCtrl);
       try {
@@ -25,10 +26,8 @@ export const useHttpClient = () => {
         );
         
         if (!response.ok) {
-          
           throw new Error(responseData.message);
         }
-
         setIsLoading(false);
         return responseData;
       } catch (err) {

@@ -29,7 +29,6 @@ const steps = [
 ];
 
 export default function VStepper(props) {
-  console.log("begining");
   const [activeStep, setActiveStep] = React.useState(0);
 
   // !!!!!!!!!!!!
@@ -85,7 +84,7 @@ export default function VStepper(props) {
   };
 
   const updated = (tag) => {
-    console.log("updated!", tag, selectedsubSubjectItem);
+    // console.log("updated!", tag, selectedsubSubjectItem);
     // 用 itemList : ["Fab", "Model", "Func"] 去 mapping
     const list = itemList.map((i) => {
       return (
@@ -100,6 +99,11 @@ export default function VStepper(props) {
     return list;
   };
 
+  var component = updated("initialized");
+  const [updatedComponent, setUpdatedComponent] = React.useState(component);
+
+
+  // /////////////////////////////////////////////////////////////////////
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedData, setLoadedData] = useState();
 
@@ -120,6 +124,7 @@ export default function VStepper(props) {
         setLoadedData(responseData);
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       } catch (err) {
+        alert(err.message)
       }
     };
     fetchData();
@@ -133,9 +138,10 @@ export default function VStepper(props) {
     }
   };
 
+  // /////////////////////////////////////////////////////////////////////
 
-  var component = updated("initialized");
-  const [updatedComponent, setUpdatedComponent] = React.useState(component);
+
+  
 
   return (
     <Box sx={{ minWidth: 800 }}>
@@ -200,10 +206,9 @@ export default function VStepper(props) {
           <CircularProgress />
         </div>
       )}
-      {console.log(isLoading,loadedData)}
       {activeStep === steps.length && !isLoading && loadedData && (
         <Paper square elevation={0} sx={{ p: 3 }}>
-          {loadedData.user.map( u => { return(<Typography>{u}</Typography>)})}
+          {loadedData.data.chart.map( (obj, key) => { return(<Typography key={key}>{obj}</Typography>)})}
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
             Reset
           </Button>

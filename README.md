@@ -6,6 +6,13 @@
 [ApexChart React](https://apexcharts.com/docs/react-charts/)
 [ApexChart toolbar](https://apexcharts.com/docs/options/chart/toolbar/)
 
+`git init`
+`git remote add origin "link"`
+`git add -A`
+`git commit -m 'Added my project'`
+`git pull --rebase origin master`
+`git push origin master`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
